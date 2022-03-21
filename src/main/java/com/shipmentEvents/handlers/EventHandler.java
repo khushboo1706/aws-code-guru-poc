@@ -59,7 +59,7 @@ public class EventHandler implements RequestHandler<ScheduledEvent, String> {
             return "SUCCESS";
         } catch (final Exception ex) {
             logger.log(String.format("Failed to process shipment Updates in %s due to %s", scheduledEvent.getAccount(), ex.getMessage()));
-            throw new RuntimeException("Hiding the exception");
+            throw new RuntimeException("Hiding the exception",ex);
         }
     }
 
@@ -119,7 +119,7 @@ public class EventHandler implements RequestHandler<ScheduledEvent, String> {
         logger.log("Processing Bucket: " + bucketName);
 
         ObjectListing files = s3Client.listObjects(bucketName);
-        List<KeyVersion> filesProcessed = new ArrayList<DeleteObjectsRequest.KeyVersion>();
+        List<KeyVersion> filesProcessed = new ArrayList<>();
 
         for (Iterator<?> iterator = files.getObjectSummaries().iterator(); iterator.hasNext(); ) {
             S3ObjectSummary summary = (S3ObjectSummary) iterator.next();
